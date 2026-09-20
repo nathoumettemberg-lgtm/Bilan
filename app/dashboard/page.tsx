@@ -72,3 +72,34 @@ export default function DashboardPage() {
       </main>
     );
   }
+  return (
+    <main className="min-h-screen px-6 py-10 max-w-lg mx-auto">
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <p className="text-terracotta font-semibold text-sm">Connecté</p>
+          <p className="text-ink/60 text-sm">{user.email}</p>
+        </div>
+        <button onClick={handleLogout} className="text-ink/50 underline text-sm">
+          Se déconnecter
+        </button>
+      </div>
+
+      <h1 className="text-2xl font-bold text-ink mb-6">Vos clients suivis</h1>
+
+      {clients.length === 0 ? (
+        <p className="text-ink/60 mb-6">
+          Aucun client pour l'instant. Ajoutez le premier ci-dessous pour créer
+          votre premier bilan.
+        </p>
+      ) : (
+        <ul className="mb-8 flex flex-col gap-3">
+          {clients.map((c) => (
+            <li key={c.id} className="border border-ink/10 rounded-lg p-4">
+              <a href={`/dashboard/clients/${c.id}`} className="font-semibold text-ink block">
+                {c.name}
+              </a>
+              <p className="text-ink/50 text-sm">{c.email}</p>
+            </li>
+          ))}
+        </ul>
+      )}
