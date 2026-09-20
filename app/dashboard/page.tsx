@@ -26,7 +26,8 @@ export default function DashboardPage() {
       .order("created_at", { ascending: false });
     setClients(data || []);
   };
-    useEffect(() => {
+
+  useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
       setUser(data.user);
       if (data.user) loadClients(data.user.id);
@@ -65,13 +66,14 @@ export default function DashboardPage() {
   if (!user) {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center px-6 text-center">
-        <p className="text-ink mb-4">Vous n'êtes pas connecté.</p>
+        <p className="text-ink mb-4">Vous n&apos;êtes pas connecté.</p>
         <a href="/login" className="text-terracotta font-semibold underline">
           Aller à la connexion
         </a>
       </main>
     );
   }
+
   return (
     <main className="min-h-screen px-6 py-10 max-w-lg mx-auto">
       <div className="flex justify-between items-center mb-8">
@@ -88,14 +90,17 @@ export default function DashboardPage() {
 
       {clients.length === 0 ? (
         <p className="text-ink/60 mb-6">
-          Aucun client pour l'instant. Ajoutez le premier ci-dessous pour créer
-          votre premier bilan.
+          Aucun client pour l&apos;instant. Ajoutez le premier ci-dessous pour
+          créer votre premier bilan.
         </p>
       ) : (
         <ul className="mb-8 flex flex-col gap-3">
           {clients.map((c) => (
             <li key={c.id} className="border border-ink/10 rounded-lg p-4">
-              <a href={`/dashboard/clients/${c.id}`} className="font-semibold text-ink block">
+              
+                href={`/dashboard/clients/${c.id}`}
+                className="font-semibold text-ink block"
+              >
                 {c.name}
               </a>
               <p className="text-ink/50 text-sm">{c.email}</p>
@@ -103,3 +108,36 @@ export default function DashboardPage() {
           ))}
         </ul>
       )}
+
+      <form
+        onSubmit={handleAddClient}
+        className="border-t border-ink/10 pt-6 flex flex-col gap-3"
+      >
+        <h2 className="font-bold text-ink">Ajouter un client</h2>
+        <input
+          type="text"
+          required
+          placeholder="Nom du client"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="border border-ink/20 rounded-lg px-4 py-3"
+        />
+        <input
+          type="email"
+          required
+          placeholder="Email du client"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="border border-ink/20 rounded-lg px-4 py-3"
+        />
+        <button
+          type="submit"
+          disabled={adding}
+          className="bg-terracotta text-white rounded-lg py-3 font-semibold"
+        >
+          {adding ? "Ajout..." : "Ajouter"}
+        </button>
+      </form>
+    </main>
+  );
+}
