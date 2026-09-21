@@ -97,7 +97,7 @@ export default function DashboardPage() {
         <ul className="mb-8 flex flex-col gap-3">
           {clients.map((c) => (
             <li key={c.id} className="border border-ink/10 rounded-lg p-4">
-              <a
+              
                 href={`/dashboard/clients/${c.id}`}
                 className="font-semibold text-ink block"
               >
